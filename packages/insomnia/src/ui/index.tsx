@@ -468,10 +468,6 @@ async function renderApp() {
                                       <Suspense fallback={<AppLoadingIndicator />}>
                                         <Runner />
                                       </Suspense>,
-                                    action: async (...args) =>
-                                      (
-                                        await import('./routes/runner')
-                                      ).runCollectionAction(...args),
                                     children: [
                                       {
                                         path: 'run/',

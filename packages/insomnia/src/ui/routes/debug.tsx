@@ -729,7 +729,7 @@ export const Debug: FC = () => {
   }, [settings.forceVerticalLayout, direction]);
 
   const onRunCollection = () => {
-    navigate(`/organization/${organizationId}/project/${activeWorkspace.parentId}/workspace/${activeWorkspace._id}/debug/runner`);
+    navigate(`/organization/${organizationId}/project/${activeWorkspace.parentId}/workspace/${activeWorkspace._id}/debug/runner?folder=`);
   };
 
   useEffect(() => {
