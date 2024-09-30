@@ -1,12 +1,12 @@
 import type { IconName, IconProp } from '@fortawesome/fontawesome-svg-core';
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Breadcrumb, Breadcrumbs, Button, DropIndicator, GridList, GridListItem, Heading, Label, ListBoxItem, Menu, MenuTrigger, Popover, Text, ToggleButton, useDragAndDrop } from 'react-aria-components';
 import { type ImperativePanelGroupHandle, Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { NavLink, useFetcher, useParams, useRouteLoaderData } from 'react-router-dom';
 
 import { DEFAULT_SIDEBAR_SIZE } from '../../common/constants';
 import { debounce } from '../../common/misc';
-import { type Environment, EnvironmentType } from '../../models/environment';
+import { type Environment, type EnvironmentKvPairData, EnvironmentType, getDataFromKVPair, getKVPairFromData } from '../../models/environment';
 import { isRemoteProject } from '../../models/project';
 import { WorkspaceDropdown } from '../components/dropdowns/workspace-dropdown';
 import { WorkspaceSyncDropdown } from '../components/dropdowns/workspace-sync-dropdown';
@@ -162,6 +162,24 @@ const Environments = () => {
       });
     }
   }, 500);
+
+  const handleKVPairChange = (kvPairData: EnvironmentKvPairData[]) => {
+    if (selectedEnvironment) {
+      const environmentData = getDataFromKVPair(kvPairData);
+      updateEnvironmentFetcher.submit(JSON.stringify({
+        patch: {
+          data: environmentData.data,
+          dataPropertyOrder: environmentData.dataPropertyOrder,
+          kvPairData,
+        },
+        environmentId: selectedEnvironment._id,
+      }), {
+        method: 'post',
+        action: `/organization/${organizationId}/project/${projectId}/workspace/${workspaceId}/environment/update`,
+        encType: 'application/json',
+      });
+    }
+  };
 
   const environmentsDragAndDrop = useDragAndDrop({
     getItems: keys => [...keys].map(key => ({ 'text/plain': key.toString() })),
@@ -451,12 +469,16 @@ const Environments = () => {
             {selectedEnvironment && (
               <ToggleButton
                 onChange={isSelected => {
-                  updateEnvironmentFetcher.submit({
+                  const newEnvironmentType = isSelected ? EnvironmentType.JSON : EnvironmentType.KVPAIR;
+                  // clear kvPairData when switch to json view, otherwise convert json data to kvPairData
+                  const kvPairData = isSelected ? [] : getKVPairFromData(selectedEnvironment.data, selectedEnvironment.dataPropertyOrder);
+                  updateEnvironmentFetcher.submit(JSON.stringify({
                     patch: {
-                      environmentType: isSelected ? EnvironmentType.JSON : EnvironmentType.KVPAIR,
+                      environmentType: newEnvironmentType,
+                      kvPairData: kvPairData,
                     },
                     environmentId: selectedEnvironment._id,
-                  }, {
+                  }), {
                     method: 'post',
                     action: `/organization/${organizationId}/project/${projectId}/workspace/${workspaceId}/environment/update`,
                     encType: 'application/json',
@@ -493,6 +515,7 @@ const Environments = () => {
               ref={environmentEditorRef}
               key={selectedEnvironment._id}
               data={selectedEnvironment.kvPairData || []}
+            onChange={handleKVPairChange}
             />
           }
         </div>
