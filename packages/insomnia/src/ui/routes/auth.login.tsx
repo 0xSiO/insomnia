@@ -33,6 +33,7 @@ const GoogleIcon = (props: React.ReactSVGElement['props']) => {
 export const action: ActionFunction = async ({
   request,
 }) => {
+  return redirect('/organization');
   const data = await request.formData();
   const provider = data.get('provider');
   const url = new URL(getLoginUrl());
@@ -168,16 +169,16 @@ const Login = () => {
             window.main.trackSegmentEvent({
               event: SegmentEvent.selectScratchpad,
             });
-            navigate('/organization/org_scratchpad/project/proj_scratchpad/workspace/wrk_scratchpad/debug');
+            navigate('/organization');
           }}
-          aria-label='Use the Scratch Pad'
+          aria-label='Use the local vault'
           className='flex outline-none transition-colors justify-center text-[rgba(var(--color-font-rgb),0.8)] text-sm gap-[--padding-xs] hover:text-[--color-font] focus:text-[--color-font]'
         >
           <div>
             <i className='fa fa-edit' />
           </div>
           <span>
-            Use the local Scratch Pad
+            Use the local vault
           </span>
         </Button>
       </div>

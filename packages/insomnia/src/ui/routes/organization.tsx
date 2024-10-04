@@ -362,7 +362,7 @@ export interface Billing {
   isActive: boolean;
 }
 
-export const DefaultStorage = 'cloud_plus_local';
+export const DefaultStorage = 'local_only';
 export interface StorageRule {
   storage: 'cloud_plus_local' | 'cloud_only' | 'local_only';
   isOverridden: boolean;

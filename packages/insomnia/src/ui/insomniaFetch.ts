@@ -34,6 +34,38 @@ export async function insomniaFetch<T = void>({
   headers,
   onlyResolveOnSuccess = false,
 }: FetchConfig): Promise<T> {
+  switch (`${method} ${path}`) {
+    case 'GET /v1/organizations':
+      return {
+        organizations: [{
+          id: 'org_personal',
+          name: 'personal',
+          display_name: 'Personal',
+          branding: { logo_url: '' },
+          metadata: { organizationType: 'personal', ownerAccountId: 'default_account' },
+        }],
+      } as T;
+    case 'GET /v1/user/profile':
+      return {
+        id: 'default_user',
+        email: '',
+        name: '',
+        picture: '',
+        bio: '',
+        github: '',
+        linkedin: '',
+        twitter: '',
+        identities: null,
+        given_name: '',
+        family_name: '',
+      } as T;
+    case 'GET /v1/billing/current-plan':
+      return { isActive: true, period: 'year', planId: 'free', price: 0, quantity: 1, type: 'free' } as T;
+    default:
+      // window.alert(JSON.stringify({ method, path, data, sessionId, organizationId }));
+      throw new Error(`No stub for endpoint: ${method} ${path}`);
+  }
+
   const config: RequestInit = {
     method,
     headers: {
