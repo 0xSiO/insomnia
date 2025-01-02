@@ -4,6 +4,7 @@ import { isDevelopment } from '../common/constants';
 import { SENTRY_OPTIONS } from '../common/sentry';
 
 export function initializeSentry() {
+  return;
   Sentry.init({
     ...SENTRY_OPTIONS,
     // enable sentry tracing

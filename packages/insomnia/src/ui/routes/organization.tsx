@@ -404,7 +404,7 @@ export async function fetchAndCacheOrganizationStorageRule(
     },
     err => {
       console.log('[storageRule] Failed to load storage rules', err.message);
-      return ORG_STORAGE_RULE.CLOUD_PLUS_LOCAL;
+      return ORG_STORAGE_RULE.LOCAL_ONLY;
     }
   );
 }
