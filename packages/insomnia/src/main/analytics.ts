@@ -66,6 +66,7 @@ function hashString(input: string) {
 }
 
 export async function trackSegmentEvent(event: SegmentEvent, properties?: Record<string, any>) {
+  return;
   const settings = await models.settings.getOrCreate();
   const userSession = await models.userSession.getOrCreate();
   if (!userSession?.hashedAccountId) {
@@ -116,6 +117,7 @@ export async function trackSegmentEvent(event: SegmentEvent, properties?: Record
 }
 
 export async function trackPageView(name: string) {
+  return;
   const settings = await models.settings.getOrCreate();
   const userSession = await models.userSession.getOrCreate();
   if (!userSession?.hashedAccountId) {

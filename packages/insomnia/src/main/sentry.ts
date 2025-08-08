@@ -39,6 +39,7 @@ export function sentryWatchAnalyticsEnabled() {
 // https://github.com/getsentry/sentry-electron/pull/889
 // docs: https://docs.sentry.io/platforms/javascript/guides/electron/
 export function initializeSentry() {
+  return;
   Sentry.init({
     ...SENTRY_OPTIONS,
     transportOptions: {
