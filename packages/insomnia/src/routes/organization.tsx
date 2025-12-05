@@ -574,10 +574,10 @@ const Component = ({ loaderData }: Route.ComponentProps) => {
                       <Link>
                         <a
                           className="flex items-center gap-1 px-[--padding-md] text-xs text-[--color-font] focus:underline focus:outline-none"
-                          href="https://konghq.com/"
+                          href="https://github.com/0xSiO"
                         >
-                          Made with
-                          <Icon className="text-[--color-surprise-font]" icon="heart" /> by Kong
+                          Forked with
+                          <Icon className="text-[--color-surprise-font]" icon="heart" /> by 0xSiO
                         </a>
                       </Link>
                     )}

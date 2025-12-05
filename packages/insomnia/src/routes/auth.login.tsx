@@ -37,6 +37,7 @@ const GoogleIcon = (props: React.ReactSVGElement['props']) => {
 };
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
+  return redirect('/organization');
   const data = await request.formData();
   const provider = data.get('provider');
   const url = new URL(getLoginUrl());
@@ -157,21 +158,15 @@ const Component = () => {
             window.main.trackSegmentEvent({
               event: SegmentEvent.selectScratchpad,
             });
-            navigate(
-              href('/organization/:organizationId/project/:projectId/workspace/:workspaceId/debug', {
-                organizationId: SCRATCHPAD_ORGANIZATION_ID,
-                projectId: SCRATCHPAD_PROJECT_ID,
-                workspaceId: SCRATCHPAD_WORKSPACE_ID,
-              }),
-            );
+            navigate('/organization');
           }}
-          aria-label="Use local Scratch Pad"
+          aria-label="Use local vault"
           className="flex w-full items-center justify-center gap-[--padding-md] rounded-md border border-solid border-[--hl-md] text-base text-[--color-font] ring-1 ring-transparent transition-all hover:bg-[--hl-xs] focus:ring-inset focus:ring-[--hl-md] aria-pressed:bg-[--hl-sm]"
         >
           <div className="flex h-[35px] w-[40px] items-center justify-center border-r border-solid border-[--hl-sm] bg-[--hl-xs]">
             <Icon icon="code" />
           </div>
-          <span className="items flex-1">Use local Scratch Pad</span>
+          <span className="items flex-1">Use local vault</span>
         </Button>
 
         <p className="text-center text-xs text-[rgba(var(--color-font-rgb),0.8)]">
